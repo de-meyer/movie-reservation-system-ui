@@ -1,5 +1,5 @@
+import { Registration } from "~/app/_components/registrationForm";
 import { HydrateClient } from "~/trpc/server";
-import { Welcome } from "./_components/welcome";
 
 export default async function Home() {
   return (
@@ -8,10 +8,11 @@ export default async function Home() {
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
-              Jello to Gosch's movie reserveration service
+              Register to Gosch's movie reservation service
             </p>
-            <Welcome />
           </div>
+
+          <Registration />
         </div>
       </main>
     </HydrateClient>
