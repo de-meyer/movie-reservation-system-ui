@@ -5,8 +5,9 @@ import { api } from "~/trpc/react";
 
 export function Registration() {
   const utils = api.useUtils();
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { mutate: registerUser } = api.user.registerUser.useMutation();
 
@@ -16,16 +17,16 @@ export function Registration() {
         onSubmit={(e) => {
           e.preventDefault();
           registerUser({
-            name: name,
+            name: username,
             email: email,
           });
         }}
         className="flex flex-col gap-2">
         <input
           type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          placeholder="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
         />
         <input
@@ -35,9 +36,16 @@ export function Registration() {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
         />
+        <input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
+        />
         <button
           type="submit"
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20">
+          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer">
           Register
         </button>
       </form>
