@@ -17,8 +17,9 @@ export function Registration() {
         onSubmit={(e) => {
           e.preventDefault();
           registerUser({
-            name: username,
+            username: username,
             email: email,
+            password: password,
           });
         }}
         className="flex flex-col gap-2">

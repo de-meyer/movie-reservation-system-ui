@@ -1,22 +1,38 @@
 import axios from "axios";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-const SchemaUser = z.object({
-	id: z.number(),
-	name: z.string(),
+const SchemaRegister = z.object({
+	username: z.string(),
 	email: z.string().email(),
+	password: z.string(),
 });
-type User = z.infer<typeof SchemaUser>;
+const SchemaLogin = z.object({
+	username: z.string(),
+	password: z.string(),
+});
+const SchemaResponseToken = z.object({
+	token: z.string(),
+});
+
+const ResponseEntitySchema = z.string();
 
 export const userRouter = createTRPCRouter({
 
 	registerUser: publicProcedure
-		.input(SchemaUser.omit({ id: true }))
-		.output(SchemaUser)
+		.input(SchemaRegister)
+		.output(ResponseEntitySchema)
 		.mutation(async ({ input }) => {
-			const response = await axios.post("http://localhost:8080/api/users/registration", input);
-			return response.data 
+			const response = await axios.post("http://localhost:8080/auth/register", input);
+			return response.data;
+		}),
+	loginUser: publicProcedure
+		.input(SchemaLogin)
+		.output(SchemaResponseToken)
+		.mutation(async ({ input }) => {
+			const response = await axios.post("http://localhost:8080/auth/login", input);
+			return response.data;
 		}),
 });
