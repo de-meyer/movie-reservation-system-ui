@@ -20,7 +20,6 @@ const SchemaResponseToken = z.object({
 const ResponseEntitySchema = z.string();
 
 export const userRouter = createTRPCRouter({
-
 	registerUser: publicProcedure
 		.input(SchemaRegister)
 		.output(ResponseEntitySchema)

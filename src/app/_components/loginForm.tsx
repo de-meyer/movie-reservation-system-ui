@@ -12,6 +12,7 @@ export function LoginForm() {
     <div className="w-full max-w-xs">
       <form
         onSubmit={(e) => {
+          e.preventDefault();
           loginUser({
             username: name,
             password: password,
