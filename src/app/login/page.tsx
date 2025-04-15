@@ -1,5 +1,6 @@
 import { HydrateClient } from "~/trpc/server";
 import { LoginForm } from "../_components/loginForm";
+import { DiscordLogin } from "../_components/discordLogin";
 
 export default async function Home() {
   return (
@@ -12,7 +13,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <LoginForm />
+          <DiscordLogin />
         </div>
       </main>
     </HydrateClient>

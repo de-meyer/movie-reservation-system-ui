@@ -8,6 +8,9 @@ export const env = createEnv({
 	 */
 	server: {
 		NODE_ENV: z.enum(["development", "test", "production"]),
+		DISCORD_CLIENT_ID: z.string().min(1, "DISCORD_CLIENT_ID is required"),
+		DISCORD_CLIENT_SECRET: z.string().min(1, "DISCORD_CLIENT_SECRET is required"),
+		NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
 	},
 
 	/**
@@ -25,6 +28,9 @@ export const env = createEnv({
 	 */
 	runtimeEnv: {
 		NODE_ENV: process.env.NODE_ENV,
+		DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+		DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 		// NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 	},
 	/**

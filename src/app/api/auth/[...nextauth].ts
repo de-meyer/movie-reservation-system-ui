@@ -1,18 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import NextAuth from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import NextAuth, { type NextAuthOptions } from "next-auth";
+import { authOption } from "./auth";
 
-
-export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-const providers = [
-  DiscordProvider({
-    clientId: process.env.DISCORD_CLIENT_ID || "",
-    clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
-  })
-]
-
-  return await NextAuth(req, res, {
-    providers,
-    
-})
-}
+export default await NextAuth(authOption);
