@@ -3,10 +3,8 @@ import "~/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 
-import { TRPCReactProvider } from "~/trpc/react";
-import { SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import { authOption } from "./api/auth/auth";
+import { authOptions } from "../server/auth";
 import Providers from "./_components/providers";
 
 export const metadata: Metadata = {
@@ -23,7 +21,7 @@ const geist = Geist({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en" className={`${geist.variable}`}>

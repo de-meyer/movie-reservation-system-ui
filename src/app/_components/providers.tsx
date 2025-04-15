@@ -9,7 +9,7 @@ export default function Providers({
   session,
 }: {
   children: React.ReactNode;
-  session: Session;
+  session: Session | null;
 }) {
   return (
     <SessionProvider session={session}>
