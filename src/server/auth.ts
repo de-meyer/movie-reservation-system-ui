@@ -11,13 +11,4 @@ export const authOptions: NextAuthOptions = {
       }),
     ],
     secret: env.NEXTAUTH_SECRET,
-    callbacks: {
-      async session({ session, token }) {
-        // Add Discord user ID (providerAccountId) from JWT token
-        if (session.user) {
-          session.user.id = token.sub; // this is the user.id from the DB (or the OAuth provider)
-        }
-        return session;
-      },
-    },
   };
