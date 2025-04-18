@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
@@ -11,10 +11,14 @@ export function DiscordLogin() {
     if (session) {
       console.log("User session:", session.user?.name);
       const response = axios
-        .post("http://localhost:8080/api/auth/oauth/discord", {
-          name: session.user?.name,
-          email: session.user?.email,
-        })
+        .post(
+          "http://localhost:8080/api/auth/oauth/discord",
+          {
+            name: session.user?.name,
+            email: session.user?.email,
+          },
+          { withCredentials: true }
+        )
         .then((response) => {
           console.log("Response from server:", response.data);
         })
@@ -24,6 +28,20 @@ export function DiscordLogin() {
     }
   }, [session]);
 
+  function me() {
+    axios
+      .get("http://localhost:8080/api/me", {
+        headers: {
+          Authorization: `Bearer ${session?.user?.name}`,
+        },
+      })
+      .then((response) => {
+        console.log("Response from server:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error during registration:", error);
+      });
+  }
   return (
     <div>
       {session ? (
@@ -34,10 +52,9 @@ export function DiscordLogin() {
             alt="Profile Picture"
             width={50}
             height={50}
-            className="rounded-full"
-          ></Image>
+            className="rounded-full"></Image>
           <figcaption>{session.user?.name}</figcaption>
-
+          <button onClick={() => me()}>me</button>
           <button onClick={() => signOut()}>Logout</button>
         </>
       ) : (
