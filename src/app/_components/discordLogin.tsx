@@ -3,11 +3,14 @@ import { useEffect } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 export function DiscordLogin() {
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
   useEffect(() => {
-    if (session) {
+    const justLoggedIn = searchParams.get("loggedIn") === "true";
+    if (session && justLoggedIn) {
       console.log("User session:", session.user?.name);
       const response = axios
         .post(
@@ -25,7 +28,7 @@ export function DiscordLogin() {
           console.error("Error during registration:", error);
         });
     }
-  }, [session]);
+  }, [session, searchParams]);
 
   function me() {
     axios

@@ -11,4 +11,11 @@ export const authOptions: NextAuthOptions = {
       }),
     ],
     secret: env.NEXTAUTH_SECRET,
+    callbacks: {
+      async redirect({ url, baseUrl }) {
+        // Redirect to the base URL after login
+        return `${baseUrl}?loggedIn=true`;
+        
+      },
+    },
   };
