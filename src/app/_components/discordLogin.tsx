@@ -6,7 +6,6 @@ import axios from "axios";
 
 export function DiscordLogin() {
   const { data: session } = useSession();
-
   useEffect(() => {
     if (session) {
       console.log("User session:", session.user?.name);
@@ -31,9 +30,7 @@ export function DiscordLogin() {
   function me() {
     axios
       .get("http://localhost:8080/api/me", {
-        headers: {
-          Authorization: `Bearer ${session?.user?.name}`,
-        },
+        withCredentials: true,
       })
       .then((response) => {
         console.log("Response from server:", response.data);
@@ -52,7 +49,8 @@ export function DiscordLogin() {
             alt="Profile Picture"
             width={50}
             height={50}
-            className="rounded-full"></Image>
+            className="rounded-full"
+          ></Image>
           <figcaption>{session.user?.name}</figcaption>
           <button onClick={() => me()}>me</button>
           <button onClick={() => signOut()}>Logout</button>
