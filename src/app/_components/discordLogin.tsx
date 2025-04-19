@@ -52,11 +52,26 @@ export function DiscordLogin() {
             className="rounded-full"
           ></Image>
           <figcaption>{session.user?.name}</figcaption>
-          <button onClick={() => me()}>me</button>
-          <button onClick={() => signOut()}>Logout</button>
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
+            onClick={() => me()}
+          >
+            me
+          </button>
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
+            onClick={() => signOut()}
+          >
+            Logout
+          </button>
         </>
       ) : (
-        <button onClick={() => signIn("discord")}>Login with Discord</button>
+        <button
+          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
+          onClick={() => signIn("discord")}
+        >
+          Login with Discord
+        </button>
       )}
     </div>
   );
