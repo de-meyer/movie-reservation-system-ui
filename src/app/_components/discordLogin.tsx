@@ -1,38 +1,13 @@
 "use client";
-import { useEffect } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
-
 export function DiscordLogin() {
   const { data: session } = useSession();
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    const justLoggedIn = searchParams.get("loggedIn") === "true";
-    if (session && justLoggedIn) {
-      console.log("User session:", session.user?.name);
-      const response = axios
-        .post(
-          "http://localhost:8080/api/auth/oauth/discord",
-          {
-            name: session.user?.name,
-            email: session.user?.email,
-          },
-          { withCredentials: true }
-        )
-        .then((response) => {
-          console.log("Response from server:", response.data);
-        })
-        .catch((error) => {
-          console.error("Error during registration:", error);
-        });
-    }
-  }, [session, searchParams]);
 
   function me() {
     axios
-      .get("http://localhost:8080/api/me", {
+      .get("http://localhost:8080/user/me", {
         withCredentials: true,
       })
       .then((response) => {
