@@ -2,37 +2,11 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import axios from "axios";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 export function DiscordLogin() {
   const { data: session, status } = useSession();
   const router = useRouter();
   /// TODO: Its working but not the best way to do it, should be done in the backend/server sideof nextjs
-  async function handleLogin() {
-    if (status === "authenticated") {
-      await axios
-        .post(
-          "http://localhost:8080/auth/oauth/discord",
-          {
-            name: session.user?.name,
-            email: session.user?.email,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .catch((error) => {
-          console.error("Error during authentication:", error);
-        });
-    }
-  }
-  useEffect(() => {
-    if (status === "authenticated") {
-      handleLogin();
-      router.push("/");
-    }
-    // Check if the session is available
-  }, [status]);
   function me() {
     axios
       .get("http://localhost:8080/user/me", {
@@ -71,7 +45,9 @@ export function DiscordLogin() {
       ) : (
         <button
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-          onClick={() => signIn("discord")}>
+          onClick={() =>
+            signIn("discord", { callbackUrl: "/api/auth/post-login" })
+          }>
           Login with Discord
         </button>
       )}
