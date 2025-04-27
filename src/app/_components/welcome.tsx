@@ -26,11 +26,6 @@ export function Welcome() {
           </button>
         </>
       )}
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-        onClick={() => router.push("/registration")}>
-        Register
-      </button>
     </div>
   );
 }

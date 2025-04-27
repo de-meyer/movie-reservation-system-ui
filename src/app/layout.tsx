@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../server/auth";
 import Providers from "./_components/providers";
+import Header from "./_components/header";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -24,8 +25,13 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
-    <html lang="en" className={`${geist.variable}`}>
+    <html
+      lang="en"
+      className={`${geist.variable} min-h-screen items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white`}>
       <body>
+        <Providers session={session}>
+          <Header session={session} />
+        </Providers>
         <Providers session={session}> {children}</Providers>
       </body>
     </html>

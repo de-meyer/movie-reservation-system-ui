@@ -28,7 +28,7 @@ export async function GET(req: Request) {
   }
 
   // Forward cookie
-  const response = NextResponse.redirect(new URL("/", req.url));
+  const response = NextResponse.redirect(new URL("/browse", req.url));
   response.headers.set("Set-Cookie", backendCookie);
 
   return response;

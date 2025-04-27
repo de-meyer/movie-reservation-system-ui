@@ -1,5 +1,4 @@
 import { HydrateClient } from "~/trpc/server";
-import { LoginForm } from "../_components/loginForm";
 import { DiscordLogin } from "../_components/discordLogin";
 
 export default async function Home() {
@@ -9,10 +8,9 @@ export default async function Home() {
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
-              Sign in to Gosch's movie reservation service
+              Sign in / Sign up to Gosch's movie reservation service
             </p>
           </div>
-
           <DiscordLogin />
         </div>
       </main>
