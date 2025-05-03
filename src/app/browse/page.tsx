@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import MovieTile from "../_components/movieTile";
 import { useState } from "react";
@@ -25,14 +24,13 @@ export default function Browse() {
   }, []);
 
   return (
-    <div className="grid-cols-[200px_minmax(900px,_1fr)_100px]">
+    <div className="grid grid-cols-10 gap-4 rounded-lg p-4]">
       {movies.map((movie) => (
         <MovieTile
           key={movie.name}
           title={movie.name}
           url={movie.url}
-          image={movie.image}
-        ></MovieTile>
+          image={movie.image}></MovieTile>
       ))}
     </div>
   );
