@@ -7,16 +7,15 @@ type MovieTileProps = {
 export default function MovieTile({ title, url, image }: MovieTileProps) {
   const preFix = "data:image/png;base64,";
   return (
-    <div className="border-2 w-full border-gray-800 rounded-lg pb-4 bg-gray-900">
+    <div className="w-full border-gray-800 rounded-lg  bg-gray-900">
       <Image
         src={`${preFix}${image}`}
         alt={title}
         layout="responsive"
         width={200}
         height={300}
-        className="rounded-lg mb-2"
+        className="rounded-lg hover:scale-120 transition-transform duration-300 ease-in-out"
       />
-      <p>{title}</p>
     </div>
   );
 }
