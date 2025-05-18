@@ -1,5 +1,5 @@
-import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 type MovieTileProps = {
   title: string;
@@ -9,19 +9,9 @@ type MovieTileProps = {
 export default function MovieTile({ title, url, image }: MovieTileProps) {
   const preFix = "data:image/png;base64,";
   const [isHovered, setIsHovered] = useState(false);
-  function getMovieInfo(url: string): void {
-    axios
-      .get(`http://localhost:8080/` + url)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
 
   return (
-    <div
+    <Link
       className={`relative w-full  rounded-lg  overflow-hidden transition-transform duration-300 ease-in-out ${
         isHovered
           ? "scale-150 z-10 border-gray-800 bg-gray-900"
@@ -29,7 +19,7 @@ export default function MovieTile({ title, url, image }: MovieTileProps) {
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={() => getMovieInfo(url)}>
+      href={`/movie/${url}`}>
       {/* Movie Image */}
       <Image
         src={`${preFix}${image}`}
@@ -47,6 +37,6 @@ export default function MovieTile({ title, url, image }: MovieTileProps) {
           </p>
         </div>
       )}
-    </div>
+    </Link>
   );
 }

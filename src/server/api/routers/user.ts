@@ -1,5 +1,4 @@
 import axios from "axios";
-import { headers } from "next/headers";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
