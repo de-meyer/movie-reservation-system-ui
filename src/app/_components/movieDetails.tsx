@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 type MovieDetailsProps = {
   slug: string;
@@ -33,6 +34,13 @@ export default function MovieDetails(props: MovieDetailsProps) {
     <div>
       {details && (
         <>
+          <Image
+            src={details.image}
+            alt={details.title}
+            width={500}
+            height={500}
+            className="rounded-lg"
+          />
           <h1 className="text-4xl">{details.title}</h1>
           <p>Descriotion: {details.description}</p>
           <p>Duration: {details.durationMinutes} /min</p>
