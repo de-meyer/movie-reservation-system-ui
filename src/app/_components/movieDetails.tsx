@@ -19,7 +19,7 @@ type Details = {
 };
 export default function MovieDetails(props: MovieDetailsProps) {
   const [details, setDetails] = useState<Details | undefined>(undefined);
-
+  const preFix = "data:image/png;base64,";
   useEffect(() => {
     axios
       .get("http://localhost:8080/movie/" + props.slug)
@@ -35,7 +35,7 @@ export default function MovieDetails(props: MovieDetailsProps) {
       {details && (
         <>
           <Image
-            src={details.image}
+            src={`${preFix}${details.image}`}
             alt={details.title}
             width={500}
             height={500}
