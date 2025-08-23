@@ -38,6 +38,16 @@ export function DiscordLogin() {
           </button>
           <button
             className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
+            onClick={() => router.push("/show")}>
+            show
+          </button>
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
+            onClick={() => router.push("/showEdit")}>
+            Show Edit
+          </button>
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
             onClick={() => signOut()}>
             Logout
           </button>
