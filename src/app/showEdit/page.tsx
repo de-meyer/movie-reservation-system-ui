@@ -1,43 +1,31 @@
 "use client";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import DataTable from "../_components/DataTable";
 
 export default function Show() {
   type Show = {
     id: string;
-    amount: number;
-    status: "pending" | "processing" | "success" | "failed";
-    email: string;
+    title: string;
   };
-  const show: Show[] = [
-    {
-      id: "1",
-      amount: 100,
-      status: "pending",
-      email: "test@example.com",
-    },
-  ];
+  const [show, setShow] = useState<Show[]>([]);
+
   const columns: ColumnDef<Show>[] = [
     {
-      accessorKey: "status",
-      header: "Status",
+      accessorKey: "id",
+      header: "ID",
     },
     {
-      accessorKey: "email",
-      header: "Email",
-    },
-    {
-      accessorKey: "amount",
-      header: "Amount",
+      accessorKey: "title",
+      header: "Title",
     },
   ];
   useEffect(() => {
     axios
       .get("http://localhost:8080/movie/browse")
       .then((res) => {
-        //setShow(res.data);
+        setShow(res.data);
         console.log(res.data);
       })
       .catch((err) => {
