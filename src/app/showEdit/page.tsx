@@ -3,18 +3,30 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import DataTable from "../_components/DataTable";
+import Image from "next/image";
 
 export default function Show() {
   type Show = {
     id: string;
     title: string;
+    image: string;
   };
   const [show, setShow] = useState<Show[]>([]);
-
+  const preFix = "data:image/png;base64,";
   const columns: ColumnDef<Show>[] = [
     {
-      accessorKey: "id",
-      header: "ID",
+      accessorKey: "image",
+      header: "Image",
+
+      cell: ({ row }) => (
+        <Image
+          src={`${preFix}${row.original.image}`}
+          alt={row.original.title}
+          width={80}
+          height={80}
+          className="object-cover"
+        />
+      ),
     },
     {
       accessorKey: "title",
