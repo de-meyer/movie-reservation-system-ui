@@ -30,11 +30,17 @@ export default function CreateShow() {
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
+    movie: z.string().min(1, { message: "Please select a movie." }),
   });
 
   const [movies, setMovies] = useState<Movie[]>([]);
-
-  const form = useForm<z.infer<typeof formSchema>>();
+  const [id, setId] = useState<string>("");
+  const form = useForm<z.infer<typeof formSchema>>({
+    defaultValues: {
+      username: "",
+      movie: "",
+    },
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -62,23 +68,50 @@ export default function CreateShow() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
+              name="movie"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Movie</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      console.log("Selected movie ID:", value);
+                      axios
+                        .get(`http://localhost:8080/movie/${value}`)
+                        .then((res) => {
+                          console.log("Selected movie details:", res.data);
+                          form.setValue("username", res.data.title);
+                        })
+                        .catch((err) => {
+                          console.error(err);
+                        });
+                    }}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a movie" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {movies.map((movie) => (
+                        <SelectItem key={movie.id} value={movie.id}>
+                          {movie.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    This is the movie for the show.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Select>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Theme" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {movies.map((movie) => (
-                          <SelectItem key={movie.id} value={movie.id}>
-                            {movie.title}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input placeholder="shadcn" {...field} />
