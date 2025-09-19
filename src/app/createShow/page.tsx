@@ -14,15 +14,26 @@ import {
   Form,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-
-export type Program = {};
-export default function Program() {
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+type Movie = {
+  id: string;
+  title: string;
+};
+export default function CreateShow() {
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
   });
-  const [program, setProgram] = useState<Program | null>(null);
+
+  const [movies, setMovies] = useState<Movie[]>([]);
+
   const form = useForm<z.infer<typeof formSchema>>();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -32,9 +43,9 @@ export default function Program() {
   }
   useEffect(() => {
     axios
-      .get("http://localhost:8080/movie/current")
+      .get("http://localhost:8080/movie/browse")
       .then((res) => {
-        setProgram(res.data);
+        setMovies(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -54,6 +65,20 @@ export default function Program() {
               name="username"
               render={({ field }) => (
                 <FormItem>
+                  <FormControl>
+                    <Select>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Theme" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {movies.map((movie) => (
+                          <SelectItem key={movie.id} value={movie.id}>
+                            {movie.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input placeholder="shadcn" {...field} />
