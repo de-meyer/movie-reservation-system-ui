@@ -5,7 +5,7 @@ import { type ColumnDef } from "@tanstack/react-table";
 import DataTable from "../_components/DataTable";
 import Image from "next/image";
 
-export default function Show() {
+export default function ShowList() {
   type Show = {
     id: string;
     title: string;
