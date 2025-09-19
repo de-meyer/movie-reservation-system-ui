@@ -61,7 +61,7 @@ export default function DataTable<TData, TValue>({
                 onClick={() => {
                   // Handle row click
                   console.log(row.original);
-                  router.push(`/create-show/${row.original.id}`);
+                  router.push(`/createShow/${row.original.id}`);
                 }}
                 data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
