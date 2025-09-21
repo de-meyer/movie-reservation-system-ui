@@ -42,7 +42,7 @@ type Theater = {
 };
 export default function CreateShow() {
   const formSchema = z.object({
-    length: z.string().min(2, {
+    duration: z.string().min(2, {
       message: "no Length.",
     }),
     movie: z.string().min(1, { message: "Please select a movie." }),
@@ -57,7 +57,7 @@ export default function CreateShow() {
   const [theaters, setTheaters] = useState<Theater[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      length: "",
+      duration: "",
       movie: "",
       theater: "",
       date: new Date(),
@@ -74,7 +74,7 @@ export default function CreateShow() {
         movieId: values.movie,
         date: values.date,
         time: values.time,
-        length: values.length,
+        duration: values.duration,
       })
       .then((res) => {
         console.log(res.data);
@@ -177,7 +177,7 @@ export default function CreateShow() {
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    This is the movie for the show.
+                    This is the theater for the show.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -207,7 +207,7 @@ export default function CreateShow() {
               name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -240,7 +240,7 @@ export default function CreateShow() {
                     </PopoverContent>
                   </Popover>
                   <FormDescription>
-                    Your date of birth is used to calculate your age.
+                    The date is used for the show.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -248,16 +248,14 @@ export default function CreateShow() {
             />
             <FormField
               control={form.control}
-              name="length"
+              name="duration"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Length</FormLabel>
+                  <FormLabel>Duration</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input placeholder="duration" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is your public display name.
-                  </FormDescription>
+                  <FormDescription>Movie duration.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
