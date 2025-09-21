@@ -35,24 +35,32 @@ type Movie = {
   id: string;
   title: string;
 };
+
+type Theater = {
+  id: string;
+  name: string;
+};
 export default function CreateShow() {
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+    length: z.string().min(2, {
+      message: "no Length.",
     }),
     movie: z.string().min(1, { message: "Please select a movie." }),
-    dob: z.date({
-      required_error: "A date of birth is required.",
+    theater: z.string().min(1, { message: "Please select a theater." }),
+    date: z.date({
+      required_error: "A date is required.",
     }),
     time: z.number().min(1, { message: "Please select a time." }),
   });
 
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [theaters, setTheaters] = useState<Theater[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
-      username: "",
+      length: "",
       movie: "",
-      dob: new Date(),
+      theater: "",
+      date: new Date(),
       time: new Date().getTime(),
     },
   });
@@ -61,12 +69,34 @@ export default function CreateShow() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    axios
+      .post("http://localhost:8080/show/create", {
+        movieId: values.movie,
+        date: values.date,
+        time: values.time,
+        length: values.length,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
   useEffect(() => {
     axios
       .get("http://localhost:8080/movie/browse")
       .then((res) => {
         setMovies(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    axios
+      .get("http://localhost:8080/theater/list")
+      .then((res) => {
+        setTheaters(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -95,7 +125,6 @@ export default function CreateShow() {
                         .get(`http://localhost:8080/movie/${value}`)
                         .then((res) => {
                           console.log("Selected movie details:", res.data);
-                          form.setValue("username", res.data.title);
                         })
                         .catch((err) => {
                           console.error(err);
@@ -124,7 +153,39 @@ export default function CreateShow() {
             />
             <FormField
               control={form.control}
-              name="Time"
+              name="theater"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Theater</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      console.log("Selected theater ID:", value);
+                    }}
+                    defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a theater" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {theaters.map((theater) => (
+                        <SelectItem key={theater.id} value={theater.id}>
+                          {theater.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    This is the movie for the show.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="time"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Time</FormLabel>
@@ -143,7 +204,7 @@ export default function CreateShow() {
             />
             <FormField
               control={form.control}
-              name="dob"
+              name="date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date of birth</FormLabel>
@@ -187,10 +248,10 @@ export default function CreateShow() {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="length"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Length</FormLabel>
                   <FormControl>
                     <Input placeholder="shadcn" {...field} />
                   </FormControl>
