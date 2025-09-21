@@ -43,7 +43,7 @@ export function DiscordLogin() {
           </button>
           <button
             className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() => router.push("/showEdit")}>
+            onClick={() => router.push("/createShows")}>
             Show Edit
           </button>
           <button
@@ -55,9 +55,7 @@ export function DiscordLogin() {
       ) : (
         <button
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-          onClick={() =>
-            signIn("discord", { callbackUrl: "/api/auth/post-login" })
-          }>
+          onClick={() => signIn("discord", { callbackUrl: "login" })}>
           Login with Discord
         </button>
       )}

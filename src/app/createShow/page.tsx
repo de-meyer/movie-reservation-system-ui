@@ -153,7 +153,7 @@ export default function CreateShow() {
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "w-[240px] bg-inherit pl-3 text-left font-normal hover:bg-inherit hover:text-white",
                             !field.value && "text-muted-foreground"
                           )}>
                           {field.value ? (
@@ -171,9 +171,10 @@ export default function CreateShow() {
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
+                          date < new Date() || date < new Date("1900-01-01")
                         }
                         captionLayout="dropdown"
+                        className=" bg-gradient-to-b from-[#2e026d] to-[#15162c] border-2 border-purple-950"
                       />
                     </PopoverContent>
                   </Popover>
