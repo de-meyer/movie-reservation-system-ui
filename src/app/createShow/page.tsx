@@ -52,7 +52,7 @@ export default function CreateShow() {
     date: z.date({
       required_error: "A date is required.",
     }),
-    time: z.number().min(1, { message: "Please select a time." }),
+    time: z.string().min(1, { message: "Please select a time." }),
   });
 
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -64,23 +64,32 @@ export default function CreateShow() {
       movie: "",
       theater: "",
       date: new Date(),
-      time: new Date().getTime(),
+      time: new Date().toTimeString().slice(0, 8), // Default to current time in HH:MM:SS format
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    const [hours, minutes, seconds] = values.time.split(":").map(Number);
+
+    // Create a new Date object with the selected date
+    const combinedDate = new Date(values.date);
+    combinedDate.setHours(hours || 0);
+    combinedDate.setMinutes(minutes || 0);
+    combinedDate.setSeconds(seconds || 0);
+    const isoString = combinedDate.toISOString().replace(/\.\d{3}Z$/, "Z");
+
     axios
       .post("http://localhost:8080/show/create", {
         movieId: values.movie,
         theaterId: values.theater,
-        date: values.date,
-        time: values.time,
+        date: isoString,
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("then", res.data);
+        /// todo: toast success
+        /// and reset form
       })
       .catch((err) => {
         console.error(err);
@@ -134,8 +143,7 @@ export default function CreateShow() {
                           console.error(err);
                         });
                     }}
-                    defaultValue={field.value}
-                  >
+                    defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a movie" />
@@ -167,8 +175,7 @@ export default function CreateShow() {
                       field.onChange(value);
                       console.log("Selected theater ID:", value);
                     }}
-                    defaultValue={field.value}
-                  >
+                    defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a theater" />
@@ -199,7 +206,8 @@ export default function CreateShow() {
                     type="time"
                     id="time-picker"
                     step="1"
-                    defaultValue="10:30:00"
+                    value={field.value}
+                    onChange={field.onChange}
                   />
                   <FormDescription>
                     This is the movie for the show.
@@ -222,8 +230,7 @@ export default function CreateShow() {
                           className={cn(
                             "w-[240px] bg-inherit pl-3 text-left font-normal hover:bg-inherit hover:text-white",
                             !field.value && "text-muted-foreground"
-                          )}
-                        >
+                          )}>
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
