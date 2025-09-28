@@ -56,6 +56,7 @@ export default function CreateShow() {
   });
 
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [theaters, setTheaters] = useState<Theater[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -74,9 +75,9 @@ export default function CreateShow() {
     axios
       .post("http://localhost:8080/show/create", {
         movieId: values.movie,
+        theaterId: values.theater,
         date: values.date,
         time: values.time,
-        duration: values.duration,
       })
       .then((res) => {
         console.log(res.data);
@@ -126,6 +127,7 @@ export default function CreateShow() {
                       axios
                         .get(`http://localhost:8080/movie/${value}`)
                         .then((res) => {
+                          setSelectedMovie(res.data);
                           console.log("Selected movie details:", res.data);
                         })
                         .catch((err) => {
@@ -258,7 +260,9 @@ export default function CreateShow() {
                 <FormItem>
                   <FormLabel>Duration</FormLabel>
                   <FormControl>
-                    <Label htmlFor="duration">{}</Label>
+                    <Label htmlFor="duration">
+                      {selectedMovie?.durationMinutes} minutes
+                    </Label>
                   </FormControl>
                   <FormDescription>Movie duration.</FormDescription>
                   <FormMessage />
