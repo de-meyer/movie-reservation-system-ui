@@ -31,9 +31,11 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { cn } from "~/lib/utils";
+import { Label } from "@radix-ui/react-label";
 type Movie = {
   id: string;
   title: string;
+  durationMinutes: number;
 };
 
 type Theater = {
@@ -85,7 +87,7 @@ export default function CreateShow() {
   }
   useEffect(() => {
     axios
-      .get("http://localhost:8080/movie/browse")
+      .get("http://localhost:8080/movie/createShowInformation")
       .then((res) => {
         setMovies(res.data);
         console.log(res.data);
@@ -130,7 +132,8 @@ export default function CreateShow() {
                           console.error(err);
                         });
                     }}
-                    defaultValue={field.value}>
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a movie" />
@@ -162,7 +165,8 @@ export default function CreateShow() {
                       field.onChange(value);
                       console.log("Selected theater ID:", value);
                     }}
-                    defaultValue={field.value}>
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a theater" />
@@ -216,7 +220,8 @@ export default function CreateShow() {
                           className={cn(
                             "w-[240px] bg-inherit pl-3 text-left font-normal hover:bg-inherit hover:text-white",
                             !field.value && "text-muted-foreground"
-                          )}>
+                          )}
+                        >
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
@@ -253,7 +258,7 @@ export default function CreateShow() {
                 <FormItem>
                   <FormLabel>Duration</FormLabel>
                   <FormControl>
-                    <Input placeholder="duration" {...field} />
+                    <Label htmlFor="duration">{}</Label>
                   </FormControl>
                   <FormDescription>Movie duration.</FormDescription>
                   <FormMessage />
