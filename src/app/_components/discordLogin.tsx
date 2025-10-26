@@ -1,6 +1,5 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
+import { signIn, useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 export function DiscordLogin() {
@@ -21,45 +20,20 @@ export function DiscordLogin() {
   }
   return (
     <div>
-      {session ? (
+      {!session ? (
         <>
-          <p>Welcome,</p>
-          <Image
-            src={session.user?.image || ""}
-            alt="Profile Picture"
-            width={50}
-            height={50}
-            className="rounded-full"></Image>
-          <figcaption>{session.user?.name}</figcaption>
           <button
             className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() => me()}>
-            me
-          </button>
-          <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() => router.push("/show")}>
-            show
-          </button>
-          <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() => router.push("/createShow")}>
-            Show Edit
-          </button>
-          <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() => signOut()}>
-            Logout
+            onClick={() =>
+              signIn("discord", { callbackUrl: "/api/auth/post-login" })
+            }>
+            Login with Discord
           </button>
         </>
       ) : (
-        <button
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-          onClick={() =>
-            signIn("discord", { callbackUrl: "/api/auth/post-login" })
-          }>
-          Login with Discord
-        </button>
+        <>
+          <p>Welcome, {session.user?.name}</p>
+        </>
       )}
     </div>
   );

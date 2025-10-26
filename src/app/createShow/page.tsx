@@ -151,8 +151,7 @@ export default function CreateShow() {
                           console.error(err);
                         });
                     }}
-                    value={field.value}
-                  >
+                    value={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a movie" />
@@ -184,8 +183,7 @@ export default function CreateShow() {
                       field.onChange(value);
                       console.log("Selected theater ID:", value);
                     }}
-                    value={field.value}
-                  >
+                    value={field.value}>
                     <FormControl>
                       <SelectTrigger className="w-[180px]">
                         <SelectValue placeholder="Select a theater" />
@@ -240,8 +238,7 @@ export default function CreateShow() {
                           className={cn(
                             "w-[240px] bg-inherit pl-3 text-left font-normal hover:bg-inherit hover:text-white",
                             !field.value && "text-muted-foreground"
-                          )}
-                        >
+                          )}>
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
