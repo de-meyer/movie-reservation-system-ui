@@ -5,13 +5,11 @@ import { signIn, signOut } from "next-auth/react";
 // This component is for the user to manage their account, like changing their password, email, etc.
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-interface HeaderNavbarRightProps {
+interface HeaderRightProps {
   session: Session | null;
 }
 
-export default function HeaderNavbarRight({ session }: HeaderNavbarRightProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function HeaderRight({ session }: HeaderRightProps) {
   function me() {
     axios
       .get("http://localhost:8080/user/me", {
@@ -47,6 +45,7 @@ export default function HeaderNavbarRight({ session }: HeaderNavbarRightProps) {
           </Link>
           <Link
             href="/"
+            onClick={() => me()}
             className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
             Auth Test (me)
           </Link>
