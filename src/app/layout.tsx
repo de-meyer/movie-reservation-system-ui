@@ -28,7 +28,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geist.variable} min-h-screen items-center justify-center bg-gradient-to-b from-primary to-[#15162c] text-white`}>
+      className={`${geist.variable} min-h-[calc(100vh-var(--header-height))] items-center justify-center bg-gradient-to-b from-primary to-[#15162c] text-white`}>
       <body>
         <Providers session={session}>
           <Header session={session} />

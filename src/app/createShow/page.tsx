@@ -121,7 +121,7 @@ export default function CreateShow() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="flex flex-col gap-5">
         <span className="flex text-6xl justify-center items-center text-secondary font-bold">
           Create Show
