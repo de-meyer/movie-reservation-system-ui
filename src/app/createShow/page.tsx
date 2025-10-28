@@ -1,18 +1,10 @@
 "use client";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@radix-ui/react-popover";
 import axios from "axios";
-import { CalendarIcon } from "lucide-react";
 // Replace the following import with your actual Calendar component import
-import { Calendar } from "~/components/ui/calendar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
-import { format } from "date-fns";
 import {
   FormField,
   FormItem,
@@ -22,7 +14,6 @@ import {
   FormMessage,
   Form,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -30,8 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { cn } from "~/lib/utils";
 import { Label } from "@radix-ui/react-label";
+import DateTimePicker from "../_components/dateTimePicker";
 type Movie = {
   id: string;
   title: string;
@@ -52,9 +43,10 @@ export default function CreateShow() {
     date: z.date({
       required_error: "A date is required.",
     }),
-    time: z.string().min(1, { message: "Please select a time." }),
+    dateTime: z.date({
+      required_error: "A date is required.",
+    }),
   });
-
   const [movies, setMovies] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [theaters, setTheaters] = useState<Theater[]>([]);
@@ -63,23 +55,15 @@ export default function CreateShow() {
       duration: "",
       movie: "",
       theater: "",
-      date: new Date(),
-      time: new Date().toTimeString().slice(0, 8), // Default to current time in HH:MM:SS format
+      dateTime: undefined,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    const [hours, minutes, seconds] = values.time.split(":").map(Number);
-
     // Create a new Date object with the selected date
-    const combinedDate = new Date(values.date);
-    combinedDate.setHours(hours || 0);
-    combinedDate.setMinutes(minutes || 0);
-    combinedDate.setSeconds(seconds || 0);
-    const isoString = combinedDate.toISOString().replace(/\.\d{3}Z$/, "Z");
 
+    const isoString = values.dateTime.toISOString().replace(/\.\d{3}Z$/, "Z");
+    console.log("Submitting show with date:", isoString);
     axios
       .post("http://localhost:8080/show/create", {
         movieId: values.movie,
@@ -92,12 +76,10 @@ export default function CreateShow() {
           duration: "",
           movie: "",
           theater: "",
-          date: new Date(),
-          time: "",
+          dateTime: undefined,
         });
         setSelectedMovie(null);
         /// todo: toast success
-        /// and reset form
       })
       .catch((err) => {
         console.error(err);
@@ -126,167 +108,131 @@ export default function CreateShow() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <p>Create Show Form</p>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="movie"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Movie</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      console.log("Selected movie ID:", value);
-                      axios
-                        .get(`http://localhost:8080/movie/${value}`)
-                        .then((res) => {
-                          setSelectedMovie(res.data);
-                          console.log("Selected movie details:", res.data);
-                        })
-                        .catch((err) => {
-                          console.error(err);
-                        });
-                    }}
-                    value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a movie" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {movies.map((movie) => (
-                        <SelectItem key={movie.id} value={movie.id}>
-                          {movie.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    This is the movie for the show.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="theater"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Theater</FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      console.log("Selected theater ID:", value);
-                    }}
-                    value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a theater" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {theaters.map((theater) => (
-                        <SelectItem key={theater.id} value={theater.id}>
-                          {theater.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>
-                    This is the theater for the show.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="time"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Time</FormLabel>
-                  <Input
-                    type="time"
-                    id="time-picker"
-                    step="1"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                  <FormDescription>
-                    This is the movie for the show.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
+      <div className="flex flex-col gap-5">
+        <span className="flex text-6xl justify-center items-center text-secondary font-bold">
+          Create Show Form
+        </span>
+        <div className="flex rounded-lg border-1 border-secondary flex-col items-center justify-center px-16 py-16">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 w-md">
+              <FormField
+                control={form.control}
+                name="movie"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Movie</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        console.log("Selected movie ID:", value);
+                        axios
+                          .get(`http://localhost:8080/movie/${value}`)
+                          .then((res) => {
+                            setSelectedMovie(res.data);
+                            console.log("Selected movie details:", res.data);
+                          })
+                          .catch((err) => {
+                            console.error(err);
+                          });
+                      }}
+                      value={field.value}>
                       <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] bg-inherit pl-3 text-left font-normal hover:bg-inherit hover:text-white",
-                            !field.value && "text-muted-foreground"
-                          )}>
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a movie" />
+                        </SelectTrigger>
                       </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < new Date() || date < new Date("1900-01-01")
-                        }
-                        captionLayout="dropdown"
-                        className=" bg-gradient-to-b from-[#2e026d] to-[#15162c] border-2 border-purple-950"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>
-                    The date is used for the show.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="duration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Duration</FormLabel>
-                  <FormControl>
-                    <Label htmlFor="duration">
-                      {selectedMovie?.durationMinutes} minutes
-                    </Label>
-                  </FormControl>
-                  <FormDescription>Movie duration.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form>
+                      <SelectContent>
+                        {movies.map((movie) => (
+                          <SelectItem key={movie.id} value={movie.id}>
+                            {movie.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      This is the movie for the show.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="duration"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Duration</FormLabel>
+                    <FormControl>
+                      <Label htmlFor="duration">
+                        {selectedMovie?.durationMinutes
+                          ? selectedMovie.durationMinutes + " minutes"
+                          : ""}
+                      </Label>
+                    </FormControl>
+                    <FormDescription>Movie duration.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="theater"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Theater</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        console.log("Selected theater ID:", value);
+                      }}
+                      value={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a theater" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {theaters.map((theater) => (
+                          <SelectItem key={theater.id} value={theater.id}>
+                            {theater.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      This is the theater for the show.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dateTime"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>DateTime</FormLabel>
+                    <DateTimePicker
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                    <FormDescription>
+                      This is the movie for the show.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="rounded-lg bg-secondary hover:bg-accent cursor-pointer"
+                type="submit">
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
     </main>
   );
