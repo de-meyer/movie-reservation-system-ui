@@ -4,7 +4,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "~/components/ui/button";
 import {
   FormField,
   FormItem,
@@ -23,6 +22,7 @@ import {
 } from "~/components/ui/select";
 import { Label } from "@radix-ui/react-label";
 import DateTimePicker from "../_components/dateTimePicker";
+import ToastSubmit from "../_components/toastSubmit";
 type Movie = {
   id: string;
   title: string;
@@ -50,6 +50,7 @@ export default function CreateShow() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [theaters, setTheaters] = useState<Theater[]>([]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       duration: "",
@@ -57,6 +58,19 @@ export default function CreateShow() {
       theater: "",
       dateTime: undefined,
     },
+    mode: "onChange",
+  });
+
+  const values = form.watch();
+  const requiredFields: (keyof z.infer<typeof formSchema>)[] = [
+    "movie",
+    "theater",
+    "dateTime",
+  ];
+  const isFormValid = requiredFields.every((field) => {
+    console.log("Checking field:", field, "Value:", values[field]);
+    const v = values[field];
+    return !!v;
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -110,7 +124,7 @@ export default function CreateShow() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="flex flex-col gap-5">
         <span className="flex text-6xl justify-center items-center text-secondary font-bold">
-          Create Show Form
+          Create Show
         </span>
         <div className="flex rounded-lg border-1 border-secondary flex-col items-center justify-center px-16 py-16">
           <Form {...form}>
@@ -225,11 +239,16 @@ export default function CreateShow() {
                   </FormItem>
                 )}
               />
-              <Button
-                className="rounded-lg bg-secondary hover:bg-accent cursor-pointer"
-                type="submit">
-                Submit
-              </Button>
+              <ToastSubmit
+                disabled={!isFormValid}
+                title="The show has been successfully created."
+                description={
+                  "On " +
+                  form?.getValues()?.dateTime?.toLocaleDateString().toString() +
+                  " at " +
+                  form?.getValues()?.dateTime?.toLocaleTimeString().toString()
+                }
+              />
             </form>
           </Form>
         </div>

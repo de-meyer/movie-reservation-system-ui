@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../server/auth";
 import Providers from "./_components/providers";
 import Header from "./_components/header";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -33,6 +34,7 @@ export default async function RootLayout({
           <Header session={session} />
         </Providers>
         <Providers session={session}> {children}</Providers>
+        <Toaster position="bottom-center" richColors className="bg-secondary" />
       </body>
     </html>
   );
