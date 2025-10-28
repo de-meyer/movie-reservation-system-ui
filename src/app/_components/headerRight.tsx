@@ -29,7 +29,7 @@ export default function HeaderRight({ session }: HeaderRightProps) {
           {/* Profile Button */}
 
           <Link
-            href="/"
+            href="/program"
             className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
             Home
           </Link>

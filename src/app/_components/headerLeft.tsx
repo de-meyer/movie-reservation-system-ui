@@ -9,7 +9,7 @@ export default function HeaderLeft() {
     <Image
       src="/movie-logo.png"
       alt="Movie Logo"
-      onClick={() => router.push("/")}
+      onClick={() => router.push("/program")}
       width={70}
       height={70}
       className="rounded-full m-2 cursor-pointer"
