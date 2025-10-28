@@ -68,7 +68,6 @@ export default function CreateShow() {
     "dateTime",
   ];
   const isFormValid = requiredFields.every((field) => {
-    console.log("Checking field:", field, "Value:", values[field]);
     const v = values[field];
     return !!v;
   });
@@ -77,7 +76,6 @@ export default function CreateShow() {
     // Create a new Date object with the selected date
 
     const isoString = values.dateTime.toISOString().replace(/\.\d{3}Z$/, "Z");
-    console.log("Submitting show with date:", isoString);
     axios
       .post("http://localhost:8080/show/create", {
         movieId: values.movie,
@@ -85,7 +83,6 @@ export default function CreateShow() {
         date: isoString,
       })
       .then((res) => {
-        console.log("then", res.data);
         form.reset({
           duration: "",
           movie: "",
@@ -104,7 +101,6 @@ export default function CreateShow() {
       .get("http://localhost:8080/movie/createShowInformation")
       .then((res) => {
         setMovies(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -113,7 +109,6 @@ export default function CreateShow() {
       .get("http://localhost:8080/theater/list")
       .then((res) => {
         setTheaters(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.error(err);
@@ -140,12 +135,10 @@ export default function CreateShow() {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        console.log("Selected movie ID:", value);
                         axios
                           .get(`http://localhost:8080/movie/${value}`)
                           .then((res) => {
                             setSelectedMovie(res.data);
-                            console.log("Selected movie details:", res.data);
                           })
                           .catch((err) => {
                             console.error(err);
@@ -199,7 +192,6 @@ export default function CreateShow() {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        console.log("Selected theater ID:", value);
                       }}
                       value={field.value}>
                       <FormControl>
