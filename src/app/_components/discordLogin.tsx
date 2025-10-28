@@ -24,9 +24,7 @@ export function DiscordLogin() {
         <>
           <button
             className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-            onClick={() =>
-              signIn("discord", { callbackUrl: "/api/auth/post-login" })
-            }>
+            onClick={() => signIn("discord", { callbackUrl: "/program" })}>
             Login with Discord
           </button>
         </>

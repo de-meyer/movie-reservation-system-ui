@@ -34,7 +34,7 @@ export default function HeaderRight({ session }: HeaderRightProps) {
             Home
           </Link>
           <Link
-            href="/show"
+            href="/browse"
             className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
             Browse
           </Link>
@@ -66,9 +66,7 @@ export default function HeaderRight({ session }: HeaderRightProps) {
       ) : (
         <button
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-          onClick={() =>
-            signIn("discord", { callbackUrl: "/api/auth/post-login" })
-          }>
+          onClick={() => signIn("discord", { callbackUrl: "/program" })}>
           Login with Discord
         </button>
       )}

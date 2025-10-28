@@ -11,6 +11,13 @@ export const authOptions: NextAuthOptions = {
       }),
     ],
     secret: env.NEXTAUTH_SECRET,
-    
+    callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Ensure callbackUrl is within your domain
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+  },
     
   };

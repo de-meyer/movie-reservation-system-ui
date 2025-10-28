@@ -24,14 +24,16 @@ export default function Browse() {
   }, []);
 
   return (
-    <div className="grid grid-cols-10 gap-4 rounded-lg p-4]">
-      {movies.map((movie) => (
-        <MovieTile
-          key={movie.name}
-          title={movie.name}
-          url={movie.url}
-          image={movie.image}></MovieTile>
-      ))}
-    </div>
+    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <div className="grid grid-cols-10 gap-4 rounded-lg p-4]">
+        {movies.map((movie) => (
+          <MovieTile
+            key={movie.name}
+            title={movie.name}
+            url={movie.url}
+            image="/movie-reservation-system-logo.png"></MovieTile>
+        ))}
+      </div>
+    </main>
   );
 }
