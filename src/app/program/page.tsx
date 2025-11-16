@@ -7,6 +7,7 @@ import Image from "next/image";
 export default function Program() {
   const [programs, setPrograms] = useState<any[]>([]);
   useEffect(() => {
+    console.log("Fetching current programs");
     axios
       .get("http://localhost:8080/program/current")
       .then((res) => {
