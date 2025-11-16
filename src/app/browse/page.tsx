@@ -24,7 +24,7 @@ export default function Browse() {
   }, []);
 
   return (
-    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col items-center justify-center bg-linear-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="grid grid-cols-10 gap-4 rounded-lg p-4]">
         {movies.map((movie) => (
           <MovieTile
