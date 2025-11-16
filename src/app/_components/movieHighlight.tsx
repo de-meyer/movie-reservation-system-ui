@@ -12,7 +12,7 @@ type Program = {
   movie: any;
   shows: any[];
 };
-export default function movieHighlight({
+export default function MovieHighlight({
   programs,
 }: {
   programs: Program[] | null;

@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import MovieHighlight from "../_components/movieHighlight";
+import Image from "next/image";
 
 export default function Program() {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -17,11 +18,48 @@ export default function Program() {
       });
   }, []);
 
+  type Show = {
+    date: string;
+    theaterName: string;
+  };
+
   return (
     <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className=" justify-center flex w-full gap-12 px-4 py-16">
+      <div className=" justify-center flex flex-col w-full gap-12 px-4 py-16">
         <section>
           <MovieHighlight programs={programs} />
+        </section>
+        <section>
+          {programs.map((program) => (
+            <div key={program.id} className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">{program.movie.title}</h2>
+              <p className="mb-2">{program.movie.description}</p>
+              <div className="grid grid-cols-2 gap-4 justify-center items-center">
+                <Image
+                  src="/movie-reservation-system-logo.png"
+                  className="rounded-lg"
+                  alt={program.movie.title}
+                  width={300}
+                  height={450}
+                />
+                <div className="grid grid-cols-3 gap-4">
+                  {program.shows.map((show: Show) => (
+                    <div
+                      key={show.date}
+                      className="border p-4 rounded-lg hover:bg-secondary cursor-pointer">
+                      <p>
+                        <strong>Showtime:</strong>{" "}
+                        {new Date(show.date).toLocaleString()}
+                      </p>
+                      <p>
+                        <strong>Room:</strong> {show.theaterName}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </section>
       </div>
     </main>
