@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import MovieHighlight from "../_components/movieHighlight";
 import Image from "next/image";
+import HighlightCarousel from "../_components/highlightCarousel";
 
 export default function Program() {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -28,7 +28,7 @@ export default function Program() {
     <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="justify-center flex flex-col w-full gap-12">
         <section>
-          <MovieHighlight programs={programs} />
+          <HighlightCarousel programs={programs} />
         </section>
         <section>
           {programs.map((program) => (

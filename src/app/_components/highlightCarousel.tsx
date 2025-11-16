@@ -3,14 +3,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "~/components/ui/carousel";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
-import { useEffect, useState } from "react";
-import { Progress } from "~/components/ui/progress";
+import { useState } from "react";
+import ProgressBar from "./progressBar";
 type Program = {
   id: string;
   movie: any;
@@ -21,33 +19,9 @@ export default function MovieHighlight({
 }: {
   programs: Program[] | null;
 }) {
-  const DELAY = 12000; // ms
-  const [progress, setProgress] = useState(0);
+  const DELAY = 12000;
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
 
-  useEffect(() => {
-    console.log("Setting up carousel API");
-    if (!api) return;
-
-    setCurrent(api.selectedScrollSnap() + 1);
-    console.log("current blob:", current);
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-      console.log("Selected on:", current);
-    });
-  }, [api]);
-
-  useEffect(() => {
-    console.log("Restarting progress bar animation");
-    setProgress(0);
-    const start = Date.now();
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - start;
-      setProgress(Math.min((elapsed / DELAY) * 100, 100));
-    }, 50);
-    return () => clearInterval(interval);
-  }, [current]); // restart on programs change
   return (
     <>
       <Carousel
@@ -90,8 +64,9 @@ export default function MovieHighlight({
               ))}
             </CarouselContent>
             <div className=" flex justify-center w-full mt-4">
-              <Progress
-                value={progress}
+              <ProgressBar
+                delay={DELAY}
+                api={api}
                 className="bg-accent w-2/8 border border-accent"
               />
             </div>
@@ -99,8 +74,6 @@ export default function MovieHighlight({
         ) : (
           <p>No programs available.</p>
         )}
-        <CarouselPrevious className="mx-15 bg-secondary p-8" />
-        <CarouselNext className="mx-15 bg-secondary p-8" />
       </Carousel>
     </>
   );
