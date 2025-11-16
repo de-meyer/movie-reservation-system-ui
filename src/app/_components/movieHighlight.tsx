@@ -4,6 +4,7 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
+  CarouselPrevious,
 } from "~/components/ui/carousel";
 import Image from "next/image";
 type Program = {
@@ -19,26 +20,25 @@ export default function movieHighlight({
   console.log("Programs in MovieHighlight:", programs);
   return (
     <>
-      <h1 className="px-2 text-4xl">Movie Highlights</h1>
       <Carousel
         opts={{
           align: "start",
         }}
         // Make carousel wider
-        className="w-full max-w-6xl">
+        className="w-screen">
         {programs && programs.length > 0 ? (
           <CarouselContent>
             {programs.map((program, index) => (
               <CarouselItem
                 key={index}
                 // Make each item wider
-                className="w-full md:basis-3/3 lg:basis-2/4">
+                className="basis-full">
                 <div className="p-2">
                   <Card className="p-0">
                     {/* Use a wide aspect ratio */}
-                    <CardContent className="relative aspect-[16/9]  min-h-[350px] ">
+                    <CardContent className="relative aspect-[32/9]  min-h-[350px] ">
                       <Image
-                        src="/movie-reservation-system-logo-carousel.png"
+                        src="/highlight-logo.png"
                         alt={program.movie.title}
                         // Make image fit the card better
                         fill
@@ -53,7 +53,8 @@ export default function movieHighlight({
         ) : (
           <p>No programs available.</p>
         )}
-        <CarouselNext className="mx-15 bg-secondary" />
+        <CarouselPrevious className="mx-15 bg-secondary p-8" />
+        <CarouselNext className="mx-15 bg-secondary p-8" />
       </Carousel>
     </>
   );
