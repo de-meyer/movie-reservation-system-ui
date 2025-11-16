@@ -25,16 +25,16 @@ export default function Program() {
 
   return (
     <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className=" justify-center flex flex-col w-full gap-12 px-4 py-16">
+      <div className="justify-center flex flex-col w-full gap-12">
         <section>
           <MovieHighlight programs={programs} />
         </section>
         <section>
           {programs.map((program) => (
-            <div key={program.id} className="mb-8">
+            <div key={program.id} className="mb-8 container mx-auto">
               <h2 className="text-2xl font-bold mb-4">{program.movie.title}</h2>
               <p className="mb-2">{program.movie.description}</p>
-              <div className="grid grid-cols-2 gap-4 justify-center items-center">
+              <div className=" grid grid-cols-2 gap-4 justify-center items-center">
                 <Image
                   src="/movie-reservation-system-logo.png"
                   className="rounded-lg"
