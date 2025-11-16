@@ -36,7 +36,7 @@ export default function movieHighlight({
                 <div className="p-2">
                   <Card className="p-0">
                     {/* Use a wide aspect ratio */}
-                    <CardContent className="relative aspect-[32/9]  min-h-[350px] ">
+                    <CardContent className="relative aspect-[32/9] ">
                       <Image
                         src="/highlight-logo.png"
                         alt={program.movie.title}
