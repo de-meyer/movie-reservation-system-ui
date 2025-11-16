@@ -20,6 +20,7 @@ export default function Program() {
   }, []);
 
   type Show = {
+    id: string;
     date: string;
     theaterName: string;
   };
@@ -32,7 +33,7 @@ export default function Program() {
         </section>
         <section>
           {programs.map((program) => (
-            <div key={program.id} className="mb-8 container mx-auto">
+            <div key={program.movie.id} className="mb-8 container mx-auto">
               <h2 className="text-2xl font-bold mb-4">{program.movie.title}</h2>
               <p className="mb-2">{program.movie.description}</p>
               <div className=" grid grid-cols-2 gap-4 justify-center items-center">
@@ -46,7 +47,7 @@ export default function Program() {
                 <div className="grid grid-cols-3 gap-4">
                   {program.shows.map((show: Show) => (
                     <div
-                      key={show.date}
+                      key={show.id}
                       className="border p-4 rounded-lg hover:bg-secondary cursor-pointer">
                       <p>
                         <strong>Showtime:</strong>{" "}
