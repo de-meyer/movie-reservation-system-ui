@@ -11,8 +11,21 @@ import { useState } from "react";
 import ProgressBar from "./progressBar";
 type Program = {
   id: string;
-  movie: any;
+  movie: Movie;
   shows: any[];
+};
+
+type Movie = {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  genre: string;
+  director: string;
+  cast: string[];
+  releaseDate: string;
+  rating: number;
+  imageLandscape: string;
 };
 export default function MovieHighlight({
   programs,
@@ -47,11 +60,15 @@ export default function MovieHighlight({
                   // Make each item wider
                   className="basis-full">
                   <div className="p-2">
-                    <Card className="p-0 cursor-pointer">
+                    <Card className="p-0 border-0 cursor-pointer">
                       {/* Use a wide aspect ratio */}
                       <CardContent className="relative aspect-32/9 ">
                         <Image
-                          src="/highlight-logo.png"
+                          src={
+                            program.movie.imageLandscape
+                              ? "/landscape/" + program.movie.imageLandscape
+                              : "/landscape/movie_reservation_system-landscape.png"
+                          }
                           alt={program.movie.title}
                           // Make image fit the card better
                           fill

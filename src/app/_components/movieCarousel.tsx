@@ -9,8 +9,21 @@ import {
 import Image from "next/image";
 type Program = {
   id: string;
-  movie: any;
+  movie: Movie;
   shows: any[];
+};
+
+type Movie = {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  genre: string;
+  director: string;
+  cast: string[];
+  releaseDate: string;
+  rating: number;
+  imageProfile: string;
 };
 export default function MovieCarousel({
   programs,
@@ -37,10 +50,14 @@ export default function MovieCarousel({
                   // Make each item wider
                   className="md:basis-1/6 lg:basis-1/6 xl:basis-1/8 sm:basis-1/4 p-2">
                   <div className="p-2  h-full">
-                    <Card className="p-0 flex flex-col h-full bg-primary cursor-pointer hover:scale-105 transition-transform hover:bg-secondary">
+                    <Card className="p-0 border-0 flex flex-col h-full bg-primary cursor-pointer hover:scale-105 transition-transform hover:bg-secondary">
                       <CardContent className="relative aspect-4/5 p-0 ">
                         <Image
-                          src="/movie-reservation-system-logo.png"
+                          src={
+                            program.movie.imageProfile
+                              ? "/profile/" + program.movie.imageProfile
+                              : "/profile/movie_reservation_system-profile.png"
+                          }
                           alt={program.movie.title}
                           // Make image fit the card better
                           fill
