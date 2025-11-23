@@ -3,6 +3,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "~/components/ui/carousel";
 import Image from "next/image";
 type Program = {
@@ -25,7 +27,7 @@ export default function MovieCarousel({
           loop: true,
         }}
         // Make carousel wider
-        className="w-fit-content mx-auto mb-8">
+        className="w-fit-content mx-auto mb-8 items-stretch">
         {programs && programs.length > 0 ? (
           <div className="">
             <CarouselContent>
@@ -33,10 +35,10 @@ export default function MovieCarousel({
                 <CarouselItem
                   key={index}
                   // Make each item wider
-                  className="basis-1/8">
-                  <div className="p-2">
-                    <Card className="p-0 h-70 flex flex-col justify-between bg-primary cursor-pointer hover:scale-105 transition-transform hover:bg-secondary">
-                      <CardContent className="relative aspect-square p-0 ">
+                  className="md:basis-1/6 lg:basis-1/6 xl:basis-1/8 sm:basis-1/4 p-2">
+                  <div className="p-2  h-full">
+                    <Card className="p-0 flex flex-col h-full bg-primary cursor-pointer hover:scale-105 transition-transform hover:bg-secondary">
+                      <CardContent className="relative aspect-4/5 p-0 ">
                         <Image
                           src="/movie-reservation-system-logo.png"
                           alt={program.movie.title}
@@ -53,6 +55,8 @@ export default function MovieCarousel({
                 </CarouselItem>
               ))}
             </CarouselContent>
+            <CarouselPrevious className="mx-6 bg-accent hover:bg-secondary cursor-pointer" />
+            <CarouselNext className="mx-10 bg-accent hover:bg-secondary cursor-pointer" />
           </div>
         ) : (
           <p>No programs for today available.</p>

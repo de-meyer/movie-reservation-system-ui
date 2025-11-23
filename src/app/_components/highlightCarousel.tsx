@@ -47,7 +47,7 @@ export default function MovieHighlight({
                   // Make each item wider
                   className="basis-full">
                   <div className="p-2">
-                    <Card className="p-0">
+                    <Card className="p-0 cursor-pointer">
                       {/* Use a wide aspect ratio */}
                       <CardContent className="relative aspect-32/9 ">
                         <Image
