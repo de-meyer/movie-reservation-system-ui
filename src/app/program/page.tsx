@@ -62,7 +62,7 @@ export default function Program() {
           <h2 className="text-2xl font-bold mb-4 ml-4">Tomorrow's Program</h2>
           <MovieCarousel programs={tomorrowsPrograms} />
           <h2 className="text-2xl font-bold mb-4 ml-4">Current Program</h2>
-          <div className="grid gap-4 grid-cols-5">
+          <div className="grid gap-4 grid-cols-5 mb-5">
             {programs.map((program) => (
               <div className="aspect-4/6 relative" key={program.movie.id}>
                 <Image
