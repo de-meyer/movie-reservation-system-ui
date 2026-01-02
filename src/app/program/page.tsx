@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import MovieHighlight from "../_components/highlightCarousel";
 import MovieCarousel from "../_components/movieCarousel";
+import type { Program } from "~/types/program";
 
 export default function Program() {
-  const [programs, setPrograms] = useState<any[]>([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
   const [todaysPrograms, setTodaysPrograms] = useState<any[]>([]);
   const [tomorrowsPrograms, setTomorrowsPrograms] = useState<any[]>([]);
 
@@ -49,12 +50,6 @@ export default function Program() {
       });
   }, []);
 
-  type Show = {
-    id: string;
-    date: string;
-    theaterName: string;
-  };
-
   return (
     <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-linear-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="justify-center flex flex-col w-full gap-12">
@@ -66,36 +61,23 @@ export default function Program() {
           <MovieCarousel programs={todaysPrograms} />
           <h2 className="text-2xl font-bold mb-4 ml-4">Tomorrow's Program</h2>
           <MovieCarousel programs={tomorrowsPrograms} />
-          {programs.map((program) => (
-            <div key={program.movie.id} className="mb-8">
-              <h2 className="text-2xl font-bold mb-4">{program.movie.title}</h2>
-              <p className="mb-2">{program.movie.description}</p>
-              <div className=" grid grid-cols-2 gap-4 justify-center items-center">
+          <h2 className="text-2xl font-bold mb-4 ml-4">Current Program</h2>
+          <div className="grid gap-4 grid-cols-5">
+            {programs.map((program) => (
+              <div className="aspect-4/6 relative" key={program.movie.id}>
                 <Image
-                  src="/movie-reservation-system-logo.png"
-                  className="rounded-lg"
+                  src={
+                    program.movie.imageProfile
+                      ? "/profile/" + program.movie.imageProfile
+                      : "/profile/movie_reservation_system-profile.png"
+                  }
                   alt={program.movie.title}
-                  width={300}
-                  height={450}
+                  fill
+                  className="rounded-lg cursor-pointer hover:scale-105 transition-transform"
                 />
-                <div className="grid grid-cols-3 gap-4">
-                  {program.shows.map((show: Show) => (
-                    <div
-                      key={show.id}
-                      className="border p-4 rounded-lg hover:bg-secondary cursor-pointer">
-                      <p>
-                        <strong>Showtime:</strong>{" "}
-                        {new Date(show.date).toLocaleString()}
-                      </p>
-                      <p>
-                        <strong>Room:</strong> {show.theaterName}
-                      </p>
-                    </div>
-                  ))}
-                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </section>
       </div>
     </main>

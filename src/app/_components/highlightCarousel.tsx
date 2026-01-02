@@ -9,24 +9,8 @@ import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
 import ProgressBar from "./progressBar";
-type Program = {
-  id: string;
-  movie: Movie;
-  shows: any[];
-};
+import type { Program } from "~/types/program";
 
-type Movie = {
-  id: string;
-  title: string;
-  description: string;
-  duration: number;
-  genre: string;
-  director: string;
-  cast: string[];
-  releaseDate: string;
-  rating: number;
-  imageLandscape: string;
-};
 export default function MovieHighlight({
   programs,
 }: {

@@ -3,20 +3,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import type { Details } from "~/types/program";
 
 type MovieDetailsProps = {
   slug: string;
 };
-type Details = {
-  title: string;
-  description: string;
-  durationMinutes: number;
-  director: string;
-  genre: string;
-  rating: number;
-  image: string;
-  releaseDate: string;
-};
+
 export default function MovieDetails(props: MovieDetailsProps) {
   const [details, setDetails] = useState<Details | undefined>(undefined);
   const preFix = "data:image/png;base64,";

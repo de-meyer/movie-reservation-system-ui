@@ -7,24 +7,8 @@ import {
   CarouselPrevious,
 } from "~/components/ui/carousel";
 import Image from "next/image";
-type Program = {
-  id: string;
-  movie: Movie;
-  shows: any[];
-};
+import type { Program } from "~/types/program";
 
-type Movie = {
-  id: string;
-  title: string;
-  description: string;
-  duration: number;
-  genre: string;
-  director: string;
-  cast: string[];
-  releaseDate: string;
-  rating: number;
-  imageProfile: string;
-};
 export default function MovieCarousel({
   programs,
 }: {
@@ -49,9 +33,9 @@ export default function MovieCarousel({
                   key={index}
                   // Make each item wider
                   className="md:basis-1/6 lg:basis-1/6 xl:basis-1/8 sm:basis-1/4 p-2">
-                  <div className="p-2  h-full">
+                  <div className="p-2 h-full">
                     <Card className="p-0 border-0 flex flex-col h-full bg-primary cursor-pointer hover:scale-105 transition-transform hover:bg-secondary">
-                      <CardContent className="relative aspect-4/5 p-0 ">
+                      <CardContent className="relative aspect-4/6 p-0 ">
                         <Image
                           src={
                             program.movie.imageProfile

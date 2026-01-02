@@ -128,3 +128,8 @@
 .header-height {
   height: 5rem;
 }
+
+.poster-profile-size {
+  width: 150px;
+  height: 250px;
+}
