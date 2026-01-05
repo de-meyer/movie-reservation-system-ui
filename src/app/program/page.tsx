@@ -51,7 +51,7 @@ export default function Program() {
   }, []);
 
   return (
-    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-linear-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex min-h-[calc(100vh-var(--header-height))] flex-col bg-linear-to-b text-white">
       <div className="justify-center flex flex-col w-full gap-12">
         <section>
           <MovieHighlight programs={programs} />
