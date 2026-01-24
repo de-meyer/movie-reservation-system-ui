@@ -22,6 +22,8 @@ export default function MovieCarousel({
         opts={{
           align: "start",
           loop: true,
+          slidesToScroll: 4,
+          watchDrag: false,
         }}
         // Make carousel wider
         className="w-fit-content mx-auto mb-8 items-stretch">
@@ -56,8 +58,14 @@ export default function MovieCarousel({
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="mx-6 bg-accent hover:bg-secondary cursor-pointer" />
-            <CarouselNext className="mx-10 bg-accent hover:bg-secondary cursor-pointer" />
+            <CarouselPrevious
+              size={"icon-lg"}
+              className="mx-6 text-4xl h-11/12 rounded-lg border-0 w-20 bg-accent hover:bg-secondary cursor-pointer"
+            />
+            <CarouselNext
+              size={"icon-lg"}
+              className="mx-10 h-11/12 text-2xl rounded-lg border-0 w-20 bg-accent hover:bg-secondary cursor-pointer"
+            />
           </div>
         ) : (
           <p>No programs for today available.</p>
