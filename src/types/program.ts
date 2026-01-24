@@ -1,10 +1,10 @@
 export type Program = {
   id: string;
   movie: Movie;
-  shows: Show[];
+  shows: Shows[];
 };
 
- export type Show = {
+ export type Shows = {
     id: string;
     date: string;
     theaterName: string;

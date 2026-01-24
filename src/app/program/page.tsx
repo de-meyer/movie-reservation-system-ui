@@ -16,11 +16,11 @@ export default function Program() {
     axios
       .get("http://localhost:8080/program/today")
       .then((res) => {
-        setTodaysPrograms(res.data.content);
+        setTodaysPrograms(res.data);
         console.log(res.data);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Why " + err);
       });
   }, []);
 
@@ -29,7 +29,7 @@ export default function Program() {
     axios
       .get("http://localhost:8080/program/tomorrow")
       .then((res) => {
-        setTomorrowsPrograms(res.data.content);
+        setTomorrowsPrograms(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -42,7 +42,7 @@ export default function Program() {
     axios
       .get("http://localhost:8080/program/current")
       .then((res) => {
-        setPrograms(res.data.content);
+        setPrograms(res.data);
         console.log(res.data);
       })
       .catch((err) => {
