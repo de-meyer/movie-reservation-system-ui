@@ -3,9 +3,6 @@ import "~/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "../server/auth";
-import Providers from "./_components/providers";
 import Header from "./_components/header";
 import { Toaster } from "~/components/ui/sonner";
 
@@ -23,17 +20,14 @@ const geist = Geist({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getServerSession(authOptions);
-
   return (
     <html
       lang="en"
       className={`${geist.variable} dark min-h-[calc(100vh-var(--header-height))] items-center justify-center bg-gradient-to-b from-primary to-[#15162c] text-white`}>
       <body>
-        <Providers session={session}>
-          <Header session={session} />
-        </Providers>
-        <Providers session={session}> {children}</Providers>
+        <Header />
+
+        {children}
         <Toaster position="bottom-center" richColors className="bg-secondary" />
       </body>
     </html>

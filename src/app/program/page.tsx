@@ -14,7 +14,9 @@ export default function Program() {
   useEffect(() => {
     console.log("Fetching todays programs");
     axios
-      .get("http://localhost:8080/program/today")
+      .get("http://localhost:8080/program/today", {
+        withCredentials: true,
+      })
       .then((res) => {
         setTodaysPrograms(res.data);
         console.log(res.data);
@@ -27,7 +29,9 @@ export default function Program() {
   useEffect(() => {
     console.log("Fetching todays programs");
     axios
-      .get("http://localhost:8080/program/tomorrow")
+      .get("http://localhost:8080/program/tomorrow", {
+        withCredentials: true,
+      })
       .then((res) => {
         setTomorrowsPrograms(res.data);
         console.log(res.data);
@@ -40,7 +44,9 @@ export default function Program() {
   useEffect(() => {
     console.log("Fetching current programs");
     axios
-      .get("http://localhost:8080/program/current")
+      .get("http://localhost:8080/program/current", {
+        withCredentials: true,
+      })
       .then((res) => {
         setPrograms(res.data);
         console.log(res.data);
