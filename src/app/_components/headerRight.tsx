@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import type { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 // This component is for the user to manage their account, like changing their password, email, etc.
 import Image from "next/image";
 import Link from "next/link";
@@ -66,8 +66,11 @@ export default function HeaderRight({ session }: HeaderRightProps) {
       ) : (
         <button
           className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20 hover:cursor-pointer"
-          onClick={() => signIn("discord", { callbackUrl: "/program" })}>
-          Login with Discord
+          onClick={() =>
+            (window.location.href =
+              "http://localhost:8080/oauth2/authorization/discord")
+          }>
+          Login with Discords
         </button>
       )}
     </nav>
