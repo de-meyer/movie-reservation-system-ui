@@ -32,29 +32,29 @@ export default function HeaderRight() {
 
         <Link
           href="/program"
-          className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
+          className="px-4 py-2 rounded-lg hover:bg-accent cursor-pointer">
           Home
         </Link>
         <Link
           href="/browse"
-          className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
+          className="px-4 py-2 rounded-lg hover:bg-accent cursor-pointer">
           Browse
         </Link>
         <Link
           href="/createShow"
-          className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
+          className="px-4 py-2 rounded-lg hover:bg-accent cursor-pointer">
           Create Show
         </Link>
         <Link
           href="/"
           onClick={() => me()}
-          className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
+          className="px-4 py-2 rounded-lg hover:bg-accent cursor-pointer">
           Auth Test (me)
         </Link>
         <Link
           href="/"
           onClick={() => logout()}
-          className="px-4 py-2 rounded-lg hover:bg-orange-500 cursor-pointer">
+          className="px-4 py-2 rounded-lg hover:bg-accent cursor-pointer">
           Logout
         </Link>
         <Image
